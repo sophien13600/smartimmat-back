@@ -7,14 +7,14 @@ const login = async (req, res, next) => {
     req.body.password
   );
 
-   console.log("Données de connexion reçues :", req.body);
+   //console.log("Données de connexion reçues :", req.body);
 
   if (user) {
-    console.log("Connexion :ok");
-
+    res.status(200).json({
+            status: "success",});
   } else {
-    // Si les identifiants sont incorrects
-    res.send("Identifiants incorrects - Connexion échouée");
+    res.status(500).json({
+            status: "error",});
   }
 };
 
