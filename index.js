@@ -1,9 +1,9 @@
+//import auth from 'basic-auth'
 import cors from "cors";
 import express from "express";
 import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth.routes.js";
-
 
 const app = express()
 
@@ -15,8 +15,23 @@ app.use(
   cors({
     origin: ["http://localhost:5173"],
           // ["http://localhost:5174"]
+    methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    allowedHeaders: ['Content-Type', 'Accept', 'Authorization']
   })
 );
+
+// const basicAuth = (req, res, next) => {
+  //const unknownUser = req.headers['authorization']
+  // const unknownUser = auth(req)
+    // console.log('ici',req.body);
+    // const {email, pass} = unknownUser
+    // if (req.body.email!= user.email || req.body.password!= user.password) {
+    //    return res.sendStatus(401)
+    // }
+  
+    
+
+ 
 
 app.use("/", authRoutes);
 
