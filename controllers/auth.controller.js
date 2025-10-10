@@ -12,7 +12,7 @@ const login = async (req, res, next) => {
   if (user) {
     //console.log(user);
 
-    res.status(200).json({
+      res.status(200).json({
 
       user: {
         id: user.id,
@@ -27,4 +27,14 @@ const login = async (req, res, next) => {
   }
 };
 
-export default { login };
+const register = async (req,res,next) => {
+    const user = await AuthRepository.addUser(
+        req.body.nom,
+        req.body.prenom,
+        req.body.email,
+        req.body.password
+    );
+}
+
+
+export default { login, register};

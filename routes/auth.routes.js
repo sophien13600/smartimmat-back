@@ -6,6 +6,8 @@ router.post("/api/auth/login", AuthController.login);
 router.get('/api/auth/login', (req, res) => {
   res.send('hello world')
 })
+router.post("/api/auth/register", AuthController.register);
+router.get("/api/auth/register", AuthController.register);
 
 
 export default router;
