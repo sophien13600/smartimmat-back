@@ -1,31 +1,35 @@
 import AuthRepository from "../repositories/auth.repository.js";
+import jwt from "jsonwebtoken";
+import 'dotenv/config';
+
+const secretKey = process.env.JWT_SECRET;
 
 const login = async (req, res, next) => {
-  // Vérification des identifiants via le repository
-  const user = await AuthRepository.checkUser(
-    req.body.email,
-    req.body.password
-  );
+    // Vérification des identifiants via le repository
+    const user = await AuthRepository.checkUser(
+        req.body.email,
+        req.body.password
+    );
 
-  console.log("Données de connexion reçues :", req.body);
+    console.log("Données de connexion reçues :", req.body);
+try {
+    if (user) {
+        console.log(user);
+        const token = jwt
+            .sign({userId: user.id}, secretKey, {
+                expiresIn: '1h',
+            })
+        res.status(200).json({token})
+    }else{
+    res.status(401).json({error: 'Login failed'});}
+}
+catch
+    (error)
+    {
+        res.status(500).json({error: 'Login failed'});
+    }
+}
 
-  if (user) {
-    console.log(user);
-
-      res.status(200).json({
-
-      user: {
-        id: user.id,
-        name: user.nom,
-        email: user.email,
-      },
-    });
-  } else {
-    res.status(500).json({
-      status: "error",
-    });
-  }
-};
 
 const register = async (req,res,next) => {
     const user = await AuthRepository.addUser(
