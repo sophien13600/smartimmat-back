@@ -10,7 +10,7 @@ const checkUser = async (email, password) => {
   try {
     const resultat = await connection.query(SELECT, [email]);
     const user = resultat[0][0];
-//console.log('repo', resultat);
+console.log('repo', resultat);
 
     if (!user) {
       return null;

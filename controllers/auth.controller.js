@@ -7,10 +7,10 @@ const login = async (req, res, next) => {
     req.body.password
   );
 
-  //console.log("Données de connexion reçues :", req.body);
+  console.log("Données de connexion reçues :", req.body);
 
   if (user) {
-    //console.log(user);
+    console.log(user);
 
       res.status(200).json({
 
