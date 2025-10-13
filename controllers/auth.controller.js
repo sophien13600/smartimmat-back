@@ -21,23 +21,37 @@ try {
             })
         res.status(200).json({token})
     }else{
-    res.status(401).json({error: 'Login failed'});}
+    res.status(401).json({error: '401 Login failed'});}
 }
 catch
     (error)
     {
-        res.status(500).json({error: 'Login failed'});
+        res.status(500).json({error: '500 Login failed'});
     }
 }
 
 
 const register = async (req,res,next) => {
-    const user = await AuthRepository.addUser(
-        req.body.nom,
-        req.body.prenom,
-        req.body.email,
-        req.body.password
-    );
+    if(req.body){
+        console.log(req.body);
+
+        //destructuration de l'objet req.body
+        const { nom, prenom, email, password } = req.body;
+
+        const user = await AuthRepository.addUser(nom, prenom, email, password);
+        if(user) {
+            return res.status(201).json({
+                success: true,
+                message: "Utilisateur crée avec succès",
+
+            })
+        } else {
+          return res.status(400).json({
+              success: false,
+              message: "Cet email existe déjà"
+          })
+        }
+    }
 }
 
 

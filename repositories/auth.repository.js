@@ -1,5 +1,5 @@
 import connection from "../config/db.config.js";
-import bcrypt, {hash} from "bcrypt";
+import bcrypt from "bcrypt";
 
 const saltRounds = 10;
 
@@ -10,7 +10,7 @@ const checkUser = async (email, password) => {
   try {
     const resultat = await connection.query(SELECT, [email]);
     const user = resultat[0][0];
-console.log('repo', resultat);
+    console.log('repo', resultat);
 
     if (!user) {
       return null;
@@ -24,7 +24,7 @@ console.log('repo', resultat);
       // Mot de passe incorrect
       return null;
     }
-console.log(user);
+    console.log(user);
 
     return user;
   } catch (error) {
@@ -33,6 +33,51 @@ console.log(user);
   }
 };
 
+/*const addUser = async (nom, prenom, email, password) =>{
+    const INSERT = "INSERT INTO users (nom, prenom, email, password) VALUES (?, ?, ?, ?)";
+    bcrypt.genSalt(saltRounds, function(err, salt) {
+        bcrypt.hash(password, salt, function(err, hash) {
+
+            // Store hash in your password DB.
+            console.log(hash);
+            return hash;
+        });
+    });
+    try {
+        const user = await connection.query(INSERT,[nom, prenom, email, hash] );
+        console.log('Utilisateur ajouté avec succès, ID:', result.insertId);
+
+    }catch(error){
+        console.error('Erreur lors de l’ajout de l’utilisateur :', error);
+    }
+}*/
+
+const addUser = async (nom, prenom, email, password) => {
+    const INSERT =
+        "INSERT INTO users (nom, prenom, email, password) VALUES (?, ?, ?, ?)";
+
+    try {
+    console.log('password :',password)
+        //  Génération du hash (await simplifie tout)
+        const hash = await bcrypt.hash(password, saltRounds);
+        console.log('hash:',hash)
+        // Insertion en base (await sur la requête)
+        const [result] = await connection.query(INSERT, [
+            nom,
+            prenom,
+            email,
+            hash,
+        ]);
+        console.log('result' [result]);
+
+        console.log("Utilisateur ajouté avec succès, ID:", result.insertId);
+        return result.insertId;
+
+    } catch (error) {
+        console.error("Erreur lors de l’ajout de l’utilisateur :", error);
+        throw error;
+    }
+};
 
 
-export default {checkUser};
+export default {checkUser, addUser};
