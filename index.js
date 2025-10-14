@@ -4,6 +4,7 @@ import express from "express";
 import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth.routes.js";
+import dashboardRoutes from "./routes/dashboard.routes.js";
 
 const app = express()
 
@@ -16,6 +17,7 @@ app.use(
     origin: ["http://localhost:5173"],
           // ["http://localhost:5174"]
     methods: ['GET', 'POST', 'DELETE', 'PUT'],
+    credentials: true,
     allowedHeaders: ['Content-Type', 'Accept', 'Authorization']
   })
 );
@@ -34,6 +36,7 @@ app.use(
  
 
 app.use("/", authRoutes);
+app.use("/", dashboardRoutes);
 
 app.get('/', (req, res) => {
   res.send('Hello World!')

@@ -14,12 +14,17 @@ const login = async (req, res, next) => {
     console.log("Données de connexion reçues :", req.body);
 try {
     if (user) {
-        console.log(user);
+        //console.log('user ici',user);
         const token = jwt
-            .sign({userId: user.id}, secretKey, {
+            .sign({
+                    userEmail: user.email,
+                    userName:user.nom,
+
+            }, secretKey, {
                 expiresIn: '1h',
             })
-        res.status(200).json({token})
+
+        res.status(200).send({token})//.json(user)
     }else{
     res.status(401).json({error: '401 Login failed'});}
 }
