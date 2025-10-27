@@ -5,6 +5,7 @@ import "dotenv/config";
 import path from "path";
 import authRoutes from "./routes/auth.routes.js";
 import dashboardRoutes from "./routes/dashboard.routes.js";
+import fileRoutes from "./routes/files.routes.js"
 
 const app = express()
 
@@ -37,6 +38,8 @@ app.use(
 
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
+app.use("/", fileRoutes);
+
 
 app.get('/', (req, res) => {
   res.send('Hello World!')
