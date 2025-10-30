@@ -9,10 +9,10 @@ const router = express.Router();
 router.post("/api/files/upload", upload.single("file"), uploadFile);
 
 // Liste des fichiers
-router.get("/", getAllFiles);
+router.get("/api/files", getAllFiles);
 
 // Téléchargement
-router.get("/download/:filename", downloadFile);
+router.get("api/files/download/:filename", downloadFile);
 
 
 
